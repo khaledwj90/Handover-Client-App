@@ -21,7 +21,7 @@ const style = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'flex-end',
         paddingBottom: 10,
-        backgroundColor: Theme.body_bg_color_1,
+        backgroundColor: Theme.primary_color_1,
         paddingLeft: Theme.page_padding,
         paddingRight: Theme.page_padding,
         height: header_height,

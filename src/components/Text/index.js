@@ -9,6 +9,7 @@ import Util from '../../util';
 type Props = {
     size: number, // from 0 to 20
     weight: 'bold' | 'light' | 'regular',
+    color: string,
     withAnimation: boolean,
     numberOfLines?: number,
     style: *,
@@ -36,18 +37,24 @@ class Text extends Component<Props> {
     }
 
     render() {
-        const {style, size, ...rest} = this.props;
+        const {style, size, color, ...rest} = this.props;
         if (this.props.withAnimation) {
             return (
                 <Animated.Text {...rest}
-                               style={[{textAlign: 'center'}, this.fontWeight(), ...style.length ? style : [style], {fontSize: Util.Functions.FontSize(size)}]}>
+                               style={[{textAlign: 'center'}, this.fontWeight(), ...style.length ? style : [style], {
+                                   fontSize: Util.Functions.FontSize(size),
+                                   color: color
+                               }]}>
                     {this.props.children}
                 </Animated.Text>
             );
         } else {
             return (
                 <ReactText {...rest} numberOfLines={this.props.numberOfLines}
-                           style={[{textAlign: 'left'}, this.fontWeight(), {fontSize: Util.Functions.FontSize(size)}, ...style && style.length ? style : [style]]}>
+                           style={[{textAlign: 'left'}, this.fontWeight(), {
+                               fontSize: Util.Functions.FontSize(size),
+                               color: color
+                           }, ...style && style.length ? style : [style]]}>
                     {this.props.children}
                 </ReactText>
             );

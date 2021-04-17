@@ -7,8 +7,8 @@ import * as React from 'react';
 class AppStyle {
 
     //=========== COLORS ============
-    primary_color_1 = '#0c1256';
-    primary_color_2 = '#142e8c';
+    primary_color_1 = '#e45837';
+    primary_color_2 = '#e45837';
     primary_color_3 = '#198300';
     primary_color_4 = '#5de000';
 
@@ -34,9 +34,9 @@ class AppStyle {
     base_color_9 = '#f3f3f3';
     base_color_10 = '#ffffff';
 
-    indication_color_1 = '#1445b9';
-    indication_color_2 = '#3ccbf0';
-    indication_color_3 = '#47c6b4';
+    indication_color_1 = '#F64C54';
+    indication_color_2 = '#fdb725';
+    indication_color_3 = '#00CC6A';
     indication_color_4 = '#c2cdd6';
 
     body_bg_color_1 = '#142e8c';
@@ -55,12 +55,24 @@ class AppStyle {
 
 
     disabled_opacity: number = 0.5;
-    header_height = 60;
+    header_height = 100;
     page_padding = 15;
     card_border_radius = 10;
 
     constructor(colors: Object) {
 
+    }
+
+    shadow(variables: { color: string, size: number, opacity: number, radius: number }): Object {
+        return (
+            {
+                shadowColor: variables.color || this.base_color_1,
+                shadowOffset: variables.size ? {width: variables.size, height: variables.size} : {width: 2, height: 2},
+                shadowOpacity: variables.opacity || 0.3,
+                shadowRadius: variables.radius || 5,
+                elevation: 5,
+            }
+        )
     }
 
     setColors(colors: Object) {

@@ -5,7 +5,7 @@ import style from "./TextInputField/style";
 import Util from "../../util";
 
 
-export const inputFieldHeight = 40;
+export const inputFieldHeight = 50;
 export const SharedStyles: any = StyleSheet.create({
     borderColorValid: {
         borderColor: Theme.primary_color_1
@@ -70,7 +70,7 @@ export const GetMainFieldType = (styleType: number): any => {
             return ({
                 color: Theme.base_color_3,
                 backgroundColor: Theme.base_color_10,
-                shadowColor: Theme.supporting_color_1,
+                shadowColor: Theme.primary_color_1,
                 borderWidth: 1,
                 justifyContent: 'center',
             })
@@ -78,7 +78,7 @@ export const GetMainFieldType = (styleType: number): any => {
             return ({
                 color: Theme.base_color_3,
                 backgroundColor: Theme.base_color_10,
-                shadowColor: Theme.supporting_color_1,
+                shadowColor: Theme.primary_color_1,
                 borderWidth: 1,
                 justifyContent: 'center',
             })

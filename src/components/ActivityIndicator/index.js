@@ -4,9 +4,12 @@ import {View, ActivityIndicator as Loader} from 'react-native';
 import Theme from '../../App.style';
 
 
-type Props = {};
+type Props = {
+    color: string,
+    size: 'large' | 'small'
+};
 export const ActivityIndicator = (props: Props) => {
     return (
-        <Loader {...props} color={Theme.base_color_1}/>
+        <Loader {...props} size={props.size} color={props.color || Theme.primary_color_1}/>
     );
 };

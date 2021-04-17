@@ -18,20 +18,21 @@ const MainRoutes = (props) => {
 
     const initialRoute = (loginStat) => {
         if (loginStat === Util.Constants.LOGIN_STATUS.LOGGED_IN) {
-            return RouteConstants.PRIVATE_ROUTES.DASHBOARD;
+            return RouteConstants.PRIVATE_ROUTES.ORDERS;
         } else {
             return RouteConstants.PUBLIC_ROUTES.LOGIN;
         }
     };
-
     if (LoginStatus === null) {
         return <Splashscreen/>;
     } else {
         return (
             <NavigationContainer>
                 {
-                    LoginStatus === Util.Constants.LOGIN_STATUS.LOGGED_IN ? <PrivateNavigation tab={'drawer'}/>
-                        : <PublicNavigation initialRouteName={initialRoute(LoginStatus)}/>
+                    LoginStatus === Util.Constants.LOGIN_STATUS.LOGGED_IN ?
+                        <PrivateNavigation/>
+                        :
+                        <PublicNavigation initialRouteName={initialRoute(LoginStatus)}/>
                 }
             </NavigationContainer>
         );

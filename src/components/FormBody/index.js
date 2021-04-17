@@ -1,18 +1,18 @@
 // @flow
 import * as React from 'react';
-import {View, ScrollView} from 'react-native';
-import KeyboardAvoidingView from "../KeyboardAvoidingView";
+import {View, ScrollView, KeyboardAvoidingView} from 'react-native';
 import PageContainer from "../PageContainer";
 import Theme from "../../App.style";
 
 
-const FormBody = (props: { children: *, handleKeyboard: boolean, backgroundColor: string }): * => {
+const FormBody = (props: { children: *, handleKeyboard: boolean, backgroundColor: string, style?: any }): * => {
 
     if (props.handleKeyboard === true) {
         return (
             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null}>
                 <ScrollView style={{backgroundColor: props.backgroundColor}}
-                            contentContainerStyle={{padding: Theme.page_padding,paddingBottom: 50}} keyboardShouldPersistTaps='handled'>
+                            contentContainerStyle={[{padding: Theme.page_padding, paddingBottom: 50}, props.style]}
+                            keyboardShouldPersistTaps='handled'>
                     {props.children}
                 </ScrollView>
             </KeyboardAvoidingView>
@@ -20,7 +20,7 @@ const FormBody = (props: { children: *, handleKeyboard: boolean, backgroundColor
     } else {
         return (
             <ScrollView style={{backgroundColor: props.backgroundColor}}
-                        contentContainerStyle={{padding: Theme.page_padding}}
+                        contentContainerStyle={[{padding: Theme.page_padding}, props.style]}
                         keyboardShouldPersistTaps='handled'>
                 {props.children}
             </ScrollView>

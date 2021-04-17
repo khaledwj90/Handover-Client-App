@@ -4,6 +4,10 @@ import Theme from "../../App.style";
 
 const style = StyleSheet.create({
     mainContainer: {
+        position: 'absolute',
+        bottom: 0,
+        width: '100%',
+        zIndex: 999,
         flexDirection: "row",
         backgroundColor: Theme.body_bg_color_5,
         paddingTop: 5

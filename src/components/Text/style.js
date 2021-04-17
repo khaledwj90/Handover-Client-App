@@ -2,7 +2,7 @@ import {StyleSheet} from 'react-native';
 
 const style = StyleSheet.create({
     bold: {
-        fontWeight: "600"
+        fontWeight: "800"
     },
     regular: {
         fontWeight: "400"

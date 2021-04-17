@@ -1,4 +1,7 @@
-import {Dimensions, PixelRatio} from 'react-native';
+import {Dimensions, PixelRatio, LayoutAnimation} from 'react-native';
+import messaging from '@react-native-firebase/messaging';
+import AsyncStorage from "@react-native-community/async-storage";
+import PushNotification from "react-native-push-notification";
 
 class _Functions {
     FontSize(size: number) {
@@ -50,6 +53,75 @@ class _Functions {
             return false;
         }
     };
+
+    AnimateView(animationType: 'easeInEaseOut' | 'spring') {
+        switch (animationType) {
+            case 'easeInEaseOut':
+                LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+                break;
+            case 'spring':
+                LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+                break;
+        }
+    }
+
+
+    async CheckNotificationPermission(askForPermission: boolean = false): Promise<{ enabled: boolean, isFirstTime: boolean }> {
+        return new Promise(async (resolve) => {
+            PushNotification.checkPermissions(async (permList) => {
+                const isFirstTime = permList.authorizationStatus === 0;
+                if (askForPermission === true) {
+                    const authStatus = await messaging().requestPermission();
+                    const enabled =
+                        authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+                        authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+                    if (enabled) {
+                        resolve({enabled: true, isFirstTime: isFirstTime});
+                    } else {
+                        resolve({enabled: false, isFirstTime: isFirstTime});
+                    }
+                } else {
+                    PushNotification.checkPermissions((permList) => {
+                        if (permList && permList.alert === true) {
+                            const isFirstTime = permList.authorizationStatus === 0;
+                            resolve({enabled: true, isFirstTime: isFirstTime});
+                        } else {
+                            resolve({enabled: false, isFirstTime: isFirstTime});
+                        }
+                    });
+                }
+            });
+
+        });
+    };
+
+    LocalNotification(data: { title: string, message: string, payload: Object }) {
+        PushNotification.localNotification({
+            id: `${new Date().getMilliseconds().toString()}`,
+            title: data.title,
+            message: data.message,
+            userInfo: data.payload,
+        });
+    }
+
+    async GetFCMToken(): Promise<string> {
+        try {
+            const fcmToken = await messaging().getToken();
+            return Promise.resolve(fcmToken);
+        } catch (e) {
+            return Promise.reject(e);
+        }
+    }
+
+    async GetValueFromAsyncStorage(key: string) {
+        const value = await AsyncStorage.getItem(key);
+        return value;
+    }
+
+    async SetValueToAsyncStorage(key: string, value) {
+        await AsyncStorage.setItem(key, value);
+    }
 }
 
 export default _Functions;

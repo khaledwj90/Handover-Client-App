@@ -1,21 +1,23 @@
 import * as React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {createDrawerNavigator} from '@react-navigation/drawer';
-import {DrawerContent} from '../components/Navigation.DrawerNav/drawerContent';
 import TabNavigationContent from '../components/Navigation.TabNav';
 import Auth_Login from '../containers/auth.login';
+import RouteConstants from "./constants";
+import OrdersList from "../containers/orders.list";
+import OrdersTracking from "../containers/orders.tracking";
+import OrdersCreate from "../containers/orders.create";
 
 const Tabs = createBottomTabNavigator();
 const StackNavigation = createStackNavigator();
-const Drawer = createDrawerNavigator();
 
 
-
-const Dashboard = () => {
+const Orders = () => {
     return (
         <StackNavigation.Navigator headerMode={'none'}>
-            <StackNavigation.Screen name={'Dashboard'} component={Auth_Login}/>
+            <StackNavigation.Screen name={RouteConstants.PRIVATE_ROUTES.ORDERS} component={OrdersList}/>
+            <StackNavigation.Screen name={RouteConstants.PRIVATE_ROUTES.ADD_ORDER} component={OrdersCreate}/>
+            <StackNavigation.Screen name={RouteConstants.PRIVATE_ROUTES.TRACK_ORDER} component={OrdersTracking}/>
         </StackNavigation.Navigator>
     );
 };
@@ -23,43 +25,28 @@ const Dashboard = () => {
 
 const PrivateRoutes = [
     {
-        name: 'Dashboard',
-        component: Auth_Login,
-        iconName: 'Home',
-        label: 'Home',
+        name: RouteConstants.PRIVATE_ROUTES.ORDERS,
+        component: Orders,
+        iconName: 'Orders',
+        label: 'Orders',
         visible: true,
     }
 ];
-const PrivateNavigation = (props: { type: 'tab' | 'drawer' | 'stack' }) => {
-    const {type} = props;
-    if (type === 'tab') {
-        return (
-            <Tabs.Navigator tabBar={props => <TabNavigationContent {...props}/>}>
+const PrivateNavigation = (props) => {
+    return (
+        <Tabs.Navigator tabBar={props => <TabNavigationContent {...props}/>}>
 
-                {
-                    PrivateRoutes.map((route, index) => {
-                        return (
-                            <Tabs.Screen key={route.name} name={route.name}
-                                         options={{tabBarIcon: route.iconName, tabBarLabel: route.label}}
-                                         component={route.component}/>
-                        );
-                    })
-                }
-            </Tabs.Navigator>
-        );
-    } else {
-        return (
-            <Drawer.Navigator drawerContent={props => (<DrawerContent {...props}/>)}>
-                {
-                    PrivateRoutes.map((route, index) => {
-                        return (
-                            <Drawer.Screen key={route.name} name={route.name} component={route.component}/>
-                        );
-                    })
-                }
-            </Drawer.Navigator>
-        );
-    }
+            {
+                PrivateRoutes.map((route, index) => {
+                    return (
+                        <Tabs.Screen key={route.name} name={route.name}
+                                     options={{tabBarIcon: route.iconName, tabBarLabel: route.label}}
+                                     component={route.component}/>
+                    );
+                })
+            }
+        </Tabs.Navigator>
+    );
 };
 
 

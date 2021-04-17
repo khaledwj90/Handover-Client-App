@@ -1,5 +1,5 @@
 import React from 'react'
-import {View, TouchableOpacity} from 'react-native'
+import {View, TouchableOpacity, Animated} from 'react-native'
 import style from './style';
 
 type props = {
@@ -19,9 +19,9 @@ const Card = (props) => {
 
     } else {
         return (
-            <View style={[style.mainContainer, customStyle]}>
+            <Animated.View style={[style.mainContainer, ...customStyle?.length ? customStyle : [customStyle]]}>
                 {props.children}
-            </View>
+            </Animated.View>
         )
     }
 }

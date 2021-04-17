@@ -1,26 +1,29 @@
 // @flow
 import React, {useState, useEffect, useRef} from 'react';
 import {View, Dimensions, Animated, Easing, TouchableWithoutFeedback} from 'react-native';
-import {connect} from 'react-redux';
+import {connect, useDispatch, useSelector} from 'react-redux';
 import {bindActionCreators} from "redux";
 import style from './style'
 import Text from "../Text";
 import {ClearToast, SetToast} from "../../redux/actions/setToast";
 import type {ToastType} from "../../redux/states/toasts";
 import {hasNotch} from "react-native-device-info";
+import type {ReducerTypes} from "../../redux/states";
+import Theme from "../../App.style";
 
 type Props = {
     Toast: ToastType
 };
 
 const CustomToast = (props: Props) => {
-    const _screenHeight = Dimensions.get('window').height;
+    const dispatch = useDispatch();
+    const reduxState: ReducerTypes = useSelector(state => state);
     const _animationValue = useRef(new Animated.Value(0)).current;
     const _timeOutVar = useRef(null);
     const viewHeight = hasNotch() ? 100 : 80;
 
     useEffect(() => {
-        if (props.Toast !== null) {
+        if (reduxState.Toast !== null) {
             _animationValue.setValue(0);
             Animated.timing(_animationValue, {
                 toValue: 1,
@@ -35,13 +38,13 @@ const CustomToast = (props: Props) => {
                         duration: 500,
                         useNativeDriver: true
                     }).start(() => {
-                        props.ClearToast();
+                        dispatch(ClearToast());
                     });
                 }, 4000);
 
             });
         }
-    }, [props.Toast]);
+    }, [reduxState.Toast]);
 
     const close = () => {
         clearTimeout(_timeOutVar.current);
@@ -62,7 +65,7 @@ const CustomToast = (props: Props) => {
             {props.children}
             <TouchableWithoutFeedback onPress={close}>
                 <Animated.View onLayout={getLayout}
-                               style={[{backgroundColor: props.Toast && (props.Toast.status === 'danger' ? '#F64C54' : props.Toast.status === 'success' ? '#C0CE00' : '#F69E4C')}, style.mainContainer, {
+                               style={[{backgroundColor: reduxState.Toast && (reduxState.Toast.status === 'danger' ? Theme.indication_color_1 : reduxState.Toast.status === 'success' ? Theme.indication_color_3 : Theme.indication_color_2)}, style.mainContainer, {
                                    height: viewHeight,
                                    top: 0,
                                    opacity: _animationValue,
@@ -73,7 +76,8 @@ const CustomToast = (props: Props) => {
                                        })
                                    }]
                                }]}>
-                    <Text size={5} weight={'light'} style={style.text}>{props.Toast ? props.Toast.message : ''} </Text>
+                    <Text size={5} weight={'light'}
+                          style={style.text}>{reduxState.Toast ? reduxState.Toast.message : ''} </Text>
                 </Animated.View>
             </TouchableWithoutFeedback>
         </View>
@@ -81,10 +85,4 @@ const CustomToast = (props: Props) => {
 };
 
 
-const mapActionToProps = (dispatch) => {
-    return bindActionCreators({SetToast, ClearToast}, dispatch);
-};
-const mapStateToProps = ({Toast}) => {
-    return ({Toast})
-};
-export default connect(mapStateToProps, mapActionToProps)(CustomToast);
+export default CustomToast;

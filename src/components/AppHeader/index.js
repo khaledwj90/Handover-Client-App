@@ -40,7 +40,7 @@ export const AppHeader = (props: Props): any => {
                         </TouchableOpacity>
                         : <View style={{flex: 1}}/>
                 }
-                <Text size={6} style={style.headerText}>
+                <Text size={6} weight={'regular'} style={style.headerText}>
                     {props.headerText}
                 </Text>
                 <Animated.View style={[style.right_section, {
@@ -80,8 +80,6 @@ export const AppHeader = (props: Props): any => {
     if (props.children) {
         return (
             <View style={[{flexDirection: 'column'}, props.style]}>
-                <StatusBar barStyle={'light-content'}
-                           backgroundColor={`rgba(${Util.Functions.HexToRgb(Theme.body_bg_color_2)},0.8)`}/>
                 {
                     typeof props.headerText !== 'undefined' &&
                     renderDefaultHeader(true)
@@ -99,8 +97,6 @@ export const AppHeader = (props: Props): any => {
     } else {
         return (
             <>
-                <StatusBar barStyle={'light-content'}
-                           backgroundColor={`rgba(${Util.Functions.HexToRgb(Theme.primary_color_1)},0.8)`}/>
                 {
                     renderDefaultHeader()
                 }

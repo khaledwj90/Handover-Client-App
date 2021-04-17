@@ -3,12 +3,18 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 
 platform :ios, '10.0'
 
-target 'cartrustapp' do
+target 'handoverclientapp' do
   config = use_native_modules!
 
   use_react_native!(:path => config["reactNativePath"])
+  
+  permissions_path = '../node_modules/react-native-permissions/ios'
+  pod 'Permission-LocationAlways', :path => "#{permissions_path}/LocationAlways.podspec"
+  pod 'Permission-LocationWhenInUse', :path => "#{permissions_path}/LocationWhenInUse.podspec"
+  pod 'Permission-Notifications', :path => "#{permissions_path}/Notifications.podspec"
+  
 
-  target 'cartrustappTests' do
+  target 'handoverclientappTests' do
     inherit! :complete
     # Pods for testing
   end
@@ -23,10 +29,10 @@ target 'cartrustapp' do
   end
 end
 
-target 'cartrustapp-tvOS' do
-  # Pods for cartrustapp-tvOS
+target 'handoverclientapp-tvOS' do
+  # Pods for handoverclientapp-tvOS
 
-  target 'cartrustapp-tvOSTests' do
+  target 'handoverclientapp-tvOSTests' do
     inherit! :search_paths
     # Pods for testing
   end

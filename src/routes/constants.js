@@ -7,7 +7,9 @@ class Constants {
         REGISTRATION: 'REGISTRATION',
     };
     PRIVATE_ROUTES = {
-        DASHBOARD: 'DASHBOARD',
+        ORDERS: 'ORDERS',
+        ADD_ORDER: 'ADD-ORDER',
+        TRACK_ORDER: 'TRACK-ORDER',
     };
 }
 

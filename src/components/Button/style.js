@@ -1,7 +1,7 @@
 import {StyleSheet} from 'react-native';
 import Theme from "../../App.style";
 
-const btHeight = 40;
+const btHeight = 50;
 const style = StyleSheet.create({
     mainContainer: {
         width: '100%',

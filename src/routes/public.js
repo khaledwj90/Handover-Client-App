@@ -14,7 +14,6 @@ const PublicRoutes = [
     },
 ]
 
-
 const PublicNavigation = (props) => {
     return (
         <StackNavigation.Navigator headerMode={'none'} initialRouteName={props.initialRouteName}>
