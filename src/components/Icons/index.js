@@ -44,6 +44,14 @@ function Icon(props: Props) {
             return (
                 <LottieView source={require('../../assets/icons/DeliveryGuy.json')} autoPlay
                             loop style={style}/>);
+        case 'Animation_DeliveryLocation':
+            return (
+                <LottieView source={require('../../assets/icons/DeliveryLocation.json')} autoPlay
+                            loop style={style}/>);
+        case 'Animation_PickupLocation':
+            return (
+                <LottieView source={require('../../assets/icons/PickupLocation.json')} autoPlay
+                            loop style={style}/>);
 
 
         default:

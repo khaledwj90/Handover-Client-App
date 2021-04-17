@@ -5,23 +5,31 @@ import {CLEAR_REDUCER} from '../actions/clearRedcuers';
 import Toast from './toasts';
 import UserDetails from "./userDetails";
 import LoginStatus from "./loginStatus";
-import type {LoginStatusType, TabShowingStatusType, UserDetailsType} from "../types";
+import type {
+    DriverLocationType,
+    LoginStatusType,
+    TabShowingStatusType,
+    UserDetailsType
+} from "../types";
 import TabShowingStatus from "./tabShowingStatus";
 import type {ToastType} from "./toasts";
+import DriverLocation from "./driverLocation";
 
 
 export type ReducerTypes = {
     Toast: ToastType,
     UserDetails: UserDetailsType,
     LoginStatus: LoginStatusType,
-    TabShowingStatus: TabShowingStatusType
+    TabShowingStatus: TabShowingStatusType,
+    DriverLocation: DriverLocationType
 }
 
 const appReducer: ReducerTypes = combineReducers({
     Toast: Toast,
     UserDetails: UserDetails,
     LoginStatus: LoginStatus,
-    TabShowingStatus: TabShowingStatus
+    TabShowingStatus: TabShowingStatus,
+    DriverLocation: DriverLocation
 });
 
 const RootReducer = (state, action) => {

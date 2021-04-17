@@ -26,11 +26,6 @@ const OrdersList = (props: Props) => {
         return (unmountOnFocus)
     }, []);
 
-    React.useEffect(()=>{
-        setInterval(()=>{
-            getOrdersList();
-        },2000);
-    },[]);
 
     const getOrdersList = async () => {
         try {
@@ -39,13 +34,6 @@ const OrdersList = (props: Props) => {
         } catch (e) {
             dispatch(SetToast('Not able to get orders list', 'warning'));
         }
-        // setTimeout(() => {
-        //     setData([
-        //         {id: '1', title: 'Order #1', subTitle: 'Al Malaz', status: Util.Constants.ORDER_STATUS.CANCELED},
-        //         {id: '2', title: 'Order #2', subTitle: 'Al Malaz', status: Util.Constants.ORDER_STATUS.IN_PROGRESS},
-        //         {id: '3', title: 'Order #3', subTitle: 'Al Malaz', status: Util.Constants.ORDER_STATUS.DELIVERED},
-        //     ])
-        // }, 2000);
     }
 
 

@@ -43,4 +43,22 @@ export interface ConstantInterface {
     LOCAL_STORAGE: {
         JWT_TOKEN: 'JWT-TOKEN',
     };
+
+    DELIVERY_STATUS: {
+        ON_WAY: string,
+        PACKAGE_NEAR_PICKUP: string,
+        PACKAGE_PICKED_UP: string,
+        NEAR_DELIVERY_DESTINATION: string,
+        DELIVERED: string,
+    };
+
+    PUSH_NOTIFICATION_EVENT: {
+        DRIVER_LOCATION_UPDATE: string,
+        DRIVER_NEAR_PICKUP_LOCATION: string,
+        DRIVER_NEAR_DELIVERY_LOCATION: string,
+        DRIVER_ARRIVED_TO_PICKUP_LOCATION: string,
+        DRIVER_ARRIVED_TO_DELIVERY_LOCATION: string,
+        DRIVER_PICKEDUP_PACKAGE: string,
+        DRIVER_DELIVERED_PACKAGE: string
+    };
 }

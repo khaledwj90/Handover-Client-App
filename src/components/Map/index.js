@@ -6,8 +6,8 @@ import Geolocation from '@react-native-community/geolocation';
 import Icon from "../Icons";
 
 type MapProps = {
-    markersList: Array<{ lat: number, lng: number }>,
-    markerType: 'normal' | 'pickup' | 'delivery',
+    markersList: Array<{ lat: number, lng: number, type: 'normal' | 'pickup' | 'delivery' | 'driver' }>,
+    initialLocation: { lat: number, lng: number },
     location: { lat: number, lng: number, hasPermission: boolean },
     updateLocation: { lat: number, long: number },
 }
@@ -21,29 +21,57 @@ const MapContainer = React.forwardRef((props: MapProps, ref) => {
     });
     const mapRegionChangeTimeout = React.useRef();
 
-    useEffect(() => {
-        getCurrentLocation();
-    }, []);
 
-    const getCurrentLocation = async () => {
-        Geolocation.getCurrentPosition((position) => {
+    useEffect(() => {
+        /**
+         * Setup initial route
+         */
+        if (props.initialLocation) {
             const initialLocation = {
-                latitude: position.coords.latitude,
-                longitude: position.coords.longitude,
+                latitude: props.initialLocation.lat,
+                longitude: props.initialLocation.lng,
                 latitudeDelta: 0.01,
                 longitudeDelta: 0.01
             };
-            if (props.location) {
-                props.location({
-                    hasPermission: true,
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude
-                });
-            }
             mapRef.current.animateToRegion(initialLocation, 500);
             setRegion(initialLocation);
-        }, (e) => console.log(e))
+        }
+    }, [props.initialLocation])
 
+
+    /**
+     * Get current location
+     * @returns {Promise<void>}
+     */
+    const getCurrentLocation = async () => {
+        if (props.markersList?.length) {
+            //fit map to show all markers
+            if (props.markersList?.length) {
+                const markersIdentifier = props.markersList.map(marker => (marker.type));
+                mapRef.current.fitToSuppliedMarkers(markersIdentifier, {
+                    edgePadding:
+                        {
+                            top: 50,
+                            right: 50,
+                            bottom: 100,
+                            left: 50
+                        }
+
+                })
+            }
+        } else {
+            //get current location
+            Geolocation.getCurrentPosition((position) => {
+                const initialLocation = {
+                    latitude: props.initialLocation ? props.initialLocation.lat : position.coords.latitude,
+                    longitude: props.initialLocation ? props.initialLocation.lng : position.coords.longitude,
+                    latitudeDelta: 0.02,
+                    longitudeDelta: 0.02
+                };
+                mapRef.current.animateToRegion(initialLocation, 500);
+                setRegion(initialLocation);
+            }, (e) => console.log(e))
+        }
     };
 
     /**
@@ -61,7 +89,14 @@ const MapContainer = React.forwardRef((props: MapProps, ref) => {
         mapRef.current.animateToRegion(location, 500);
     };
 
+    /**
+     * read lat,lng while moving on the map
+     * @param region
+     */
     const onRegionChange = (region) => {
+        if (props.markersList?.length) {
+            return;
+        }
         if (mapRegionChangeTimeout.current) {
             clearTimeout(mapRegionChangeTimeout.current);
         }
@@ -97,29 +132,35 @@ const MapContainer = React.forwardRef((props: MapProps, ref) => {
             onRegionChange={onRegionChange}>
             {
                 props.markersList && props.markersList.length ?
-                    props.markersList.map((marker) => {
+                    props.markersList.map((marker, index) => {
                         return (
                             <Marker
+                                key={index}
+                                identifier={marker.type}
                                 coordinate={{
                                     latitude: marker.lat,
                                     longitude: marker.lng
-                                }}/>
+                                }}>
+                                {
+                                    marker.type === 'delivery' &&
+                                    <Icon name={'Animation_DeliveryLocation'} style={{width: 50, height: 50}}/>
+                                }
+                                {
+                                    marker.type === 'pickup' &&
+                                    <Icon name={'Animation_PickupLocation'} style={{width: 50, height: 50}}/>
+                                }
+                                {
+                                    marker.type === 'driver' &&
+                                    <Icon name={'Animation_DeliveryGuy'} style={{width: 50, height: 50}}/>
+                                }
+                            </Marker>
                         )
                     }) :
-                    props.markerType === 'delivery' ?
-                        <Marker
-                            coordinate={{
-                                latitude: region.latitude,
-                                longitude: region.longitude
-                            }}>
-                            <Icon name={'Animation_DeliveryGuy'} style={{width: 50, height: 50}}/>
-                        </Marker>
-                        :
-                        <Marker
-                            coordinate={{
-                                latitude: region.latitude,
-                                longitude: region.longitude
-                            }}/>
+                    <Marker
+                        coordinate={{
+                            latitude: region.latitude,
+                            longitude: region.longitude
+                        }}/>
 
             }
 

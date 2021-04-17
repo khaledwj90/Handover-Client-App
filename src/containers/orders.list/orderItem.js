@@ -6,15 +6,21 @@ import Text from "../../components/Text";
 import Theme from "../../App.style";
 import Card from "../../components/Card";
 import Util from "../../util";
+import Button from "../../components/Button";
+import {useNavigation} from "@react-navigation/native";
+import PrivateNavigation from "../../routes/private";
+import RouteConstants from "../../routes/constants";
 
 
 export type OrderItemProps = {
+    id: string,
     title: string,
     subTitle: string,
     status: string,
     index: number
 };
 const OrderItem = (props: OrderItemProps) => {
+    const navigation = useNavigation();
     const animationRef = React.useRef(new Animated.Value(0)).current;
 
     React.useEffect(() => {
@@ -41,8 +47,12 @@ const OrderItem = (props: OrderItemProps) => {
         }
     }
 
+    const tackingPressed = () => {
+        navigation.push(RouteConstants.PRIVATE_ROUTES.TRACK_ORDER, {orderId: props.id})
+    }
+
     return (
-        <Card style={[style.mainContainer, {
+        <Card onPress={tackingPressed} style={[style.mainContainer, {
             opacity: animationRef,
             transform: [{
                 translateX: animationRef.interpolate({

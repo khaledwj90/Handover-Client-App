@@ -8,6 +8,7 @@ import Util from "./util";
 import messaging from "@react-native-firebase/messaging";
 import axios from "axios";
 import API from "./api";
+import {SetDriverLocation} from "./redux/actions/setDriverLocation";
 
 
 type Props = {};
@@ -25,13 +26,19 @@ const OnStart = (props: Props) => {
         Util.Functions.CheckNotificationPermission(true)
             .then(({enabled, isFirstTime}) => {
                 if (enabled === true) {
-                    console.log('NOTIFICATION PERSMISSION ENABLED');
                     messaging().onMessage((message) => {
+                        console.log('----->', message);
                         if (message.notification) {
                             const title = message.notification.title;
                             const body = message.notification.body;
                             Util.Functions.LocalNotification({title: title, message: body, payload: message.data});
                         }
+
+                        //update DriverLocation state
+                        dispatch(SetDriverLocation({
+                            ...JSON.parse(message.data.location),
+                            eventType: message.data.event
+                        }));
                     })
                 } else {
                     console.log('NOTIFICATION PERSMISSION DISABLED');
@@ -45,6 +52,7 @@ const OnStart = (props: Props) => {
     const setLoginToken = async () => {
         const jwtToken = await Util.Functions.GetValueFromAsyncStorage(Util.Constants.LOCAL_STORAGE.JWT_TOKEN);
         if (jwtToken) {
+            console.log('JWT_TOKEN: ', jwtToken);
             axios.defaults.headers.common["Authorization"] = `Bearer ${jwtToken}`;
             try {
                 const fcmToken = await Util.Functions.GetFCMToken();

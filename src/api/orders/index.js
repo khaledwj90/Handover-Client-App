@@ -6,7 +6,7 @@ import type {
     LogoutReqType,
     ChangePasswordReqType,
     SetFCMTokenReqType,
-    UpdateDriverLocationReqType, CreateOrderReqType, GetOrderResType, GetOrderReqType
+    UpdateDriverLocationReqType, CreateOrderReqType, GetOrderResType, GetOrderReqType, GetOrderDetailsReqType
 } from './_types';
 import axios from "axios";
 import Tracking_Mapping from "./_mapping";
@@ -41,6 +41,18 @@ class Orders extends Tracking_Mapping {
             const response = await this.callAPI('get', FUNCTION_URL, requestData, msgRqHdr);
 
             return Promise.resolve(this.getOrderRes(response));
+        } catch (e) {
+            return Promise.reject(e);
+        }
+    }
+
+    async getOrderDetails(req: GetOrderDetailsReqType): * {
+        const FUNCTION_URL = 'orders/get-order-details';
+        const requestData = this.getOrderDetailsReq(req);
+        try {
+            const response = await this.callAPI('get', FUNCTION_URL, {}, msgRqHdr,requestData);
+
+            return Promise.resolve(this.getOrderDetailsRes(response));
         } catch (e) {
             return Promise.reject(e);
         }
