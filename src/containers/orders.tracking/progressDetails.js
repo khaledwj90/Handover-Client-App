@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react';
-import {View} from 'react-native';
+import {View, Animated} from 'react-native';
 import style from './locationSelection.style';
 import {SliderModal} from "../../components/SliderModal";
 import Util from "../../util";
@@ -10,29 +10,31 @@ import Text from "../../components/Text";
 import ProgressSteps from "../../components/ProgressSteps";
 import type {GetOrderDetailsResType} from "../../api/orders/_types";
 import {ActivityIndicator} from "../../components/ActivityIndicator";
+import ProgressDetailsSubmitPayment from "./progressDetails.submitPayment";
+import {Tracking_OrderDetailsContext} from "./index";
 
 
-type Props = {
-    mapRef?: *,
-    orderDetails: GetOrderDetailsResType,
-    currentLocation: { lat: number, lng: number }
-};
+type Props = {};
 const ProgressDetails = (props: Props) => {
+    const orderDetailsContextState: GetOrderDetailsResType = React.useContext(Tracking_OrderDetailsContext);
+    const animationRef = React.useRef(new Animated.Value(0)).current;
 
-    //location mode will be submit view, select pickup view or select destination view
-    const [locationSelectionMode, setLocationSelectionMode] = React.useState<1 | 2 | 3>(1);
-    const modalRef = React.useRef();
 
     React.useEffect(() => {
-    }, []);
+        console.log('STATUS: ', orderDetailsContextState);
+        if (orderDetailsContextState?.status === Util.Constants.ORDER_STATUS.DELIVERED) {
+            Animated.timing(animationRef, {
+                toValue: 1,
+                duration: 250,
+                useNativeDriver: true,
+            }).start();
+        }
 
+    }, [orderDetailsContextState?.status]);
 
-    const onClose = () => {
-    }
 
     const getActiveStep = () => {
-        console.log('pp', props.orderDetails);
-        switch (props.orderDetails.deliveryStatus) {
+        switch (orderDetailsContextState.deliveryStatus) {
             case Util.Constants.DELIVERY_STATUS.ON_WAY:
             case Util.Constants.DELIVERY_STATUS.PACKAGE_NEAR_PICKUP:
                 return 0;
@@ -49,25 +51,45 @@ const ProgressDetails = (props: Props) => {
 
     return (
         <>
-            <SliderModal ref={modalRef} heightSizes={[200]} selectedHeightIndex={1}
-                         onClose={onClose} bgColor={Theme.primary_color_1} withBlur={false}>
-                <View style={{alignItems: 'center', paddingBottom: 50}}>
+            <SliderModal bgColor={Theme.primary_color_1} withBlur={false}>
+
+                <View style={{
+                    alignItems: 'center',
+                    paddingBottom: 50,
+                    width: Util.Functions.GetDeviceDimensions().width
+                }}>
                     {
-                        props.orderDetails === null ?
+                        orderDetailsContextState === null ?
                             <ActivityIndicator color={Theme.base_color_10} size={'small'}/>
                             :
                             <>
                                 <View style={style.profileContainer}>
                                     <ProfileImg size={80}
                                                 style={{...Theme.shadow({color: Theme.base_color_10})}}/>
-                                    <Text size={2} weight={'bold'} color={Theme.base_color_10} style={style.driverName}>
+                                    <Text size={2} weight={'bold'} color={Theme.base_color_10}
+                                          style={style.driverName}>
                                         Driver Name
                                     </Text>
                                 </View>
                                 <View style={{alignItems: 'flex-start', width: '100%'}}>
-                                    <ProgressSteps
-                                        activeStep={getActiveStep()}
-                                        steps={['On the way', 'Picked up delivery', 'Near delivery destination', 'Package is delivered']}/>
+                                    <Animated.View style={{
+                                        flexDirection: 'row',
+                                        transform: [{
+                                            translateX: animationRef.interpolate({
+                                                inputRange: [0, 1],
+                                                outputRange: [0, -Util.Functions.GetDeviceDimensions().width]
+                                            })
+                                        }]
+                                    }}>
+                                        <View style={{width: Util.Functions.GetDeviceDimensions().width}}>
+                                            <ProgressSteps
+                                                activeStep={getActiveStep()}
+                                                steps={['On the way', 'Picked up delivery', 'Near delivery destination', 'Package is delivered']}/>
+                                        </View>
+                                        <View style={{width: Util.Functions.GetDeviceDimensions().width}}>
+                                            <ProgressDetailsSubmitPayment/>
+                                        </View>
+                                    </Animated.View>
                                 </View>
                             </>
                     }

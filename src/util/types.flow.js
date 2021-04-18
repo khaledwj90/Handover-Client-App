@@ -24,7 +24,11 @@ export interface FunctionsInterface {
 
     GetValueFromAsyncStorage(key: string): Promise<string>;
 
-    SetValueToAsyncStorage(key: string, value): Promise<string>;
+    SetValueToAsyncStorage(key: string, value): Promise<void>;
+
+    ClearAsyncStorage(): Promise<void>,
+
+    DateTimeFormat(string, withTime: boolean, isRelative: boolean, lng: 'en' | 'ar'): string,
 }
 
 export interface ConstantInterface {
@@ -36,6 +40,7 @@ export interface ConstantInterface {
 
     ORDER_STATUS: {
         DELIVERED: string,
+        COMPLETED: string,
         IN_PROGRESS: string,
         CANCELED: string,
     };

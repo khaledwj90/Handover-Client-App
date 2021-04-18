@@ -38,7 +38,7 @@ const App = () => {
         });
 
         axios.interceptors.response.use(response => {
-            console.log('Response:', response);
+            console.log('Response:', JSON.stringify(response));
             return response;
         });
         initializeLang('en');

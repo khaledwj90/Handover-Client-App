@@ -6,6 +6,7 @@ import Add from '../../assets/icons/Add.svg';
 import Back from '../../assets/icons/Back.svg';
 import Orders from '../../assets/icons/Orders.svg';
 import Logout from '../../assets/icons/Logout.svg';
+import RightArrow from '../../assets/icons/RightArrow.svg';
 
 
 type Props = {
@@ -28,6 +29,8 @@ function Icon(props: Props) {
             return <Orders {...props} width={width} height={height} fill={fill} style={style}/>;
         case 'Logout':
             return <Logout {...props} width={width} height={height} fill={fill} style={style}/>;
+        case 'RightArrow':
+            return <RightArrow {...props} width={width} height={height} fill={fill} style={style}/>;
 
         //======================= Animations ====================
         case 'Animation_Profile':

@@ -15,7 +15,7 @@ const ProgressSteps = (props: Props) => {
             {
                 props.steps.map((stepText, index) => {
                     return (
-                        <ProgressStep text={stepText} isActive={props.activeStep >= index} isLast={props.steps.length - 1 === index}/>
+                        <ProgressStep key={index} text={stepText} isActive={props.activeStep >= index} isLast={props.steps.length - 1 === index}/>
                     )
                 })
             }

@@ -46,7 +46,8 @@ const OrdersList = (props: Props) => {
         return (<OrderItem {...item} index={index}/>)
     }
 
-    const logout = React.useCallback(() => {
+    const logout = React.useCallback(async () => {
+        Util.Functions.ClearAsyncStorage();
         dispatch(SetLoginStatus(Util.Constants.LOGIN_STATUS.NOT_LOGGED_IN));
     }, []);
 

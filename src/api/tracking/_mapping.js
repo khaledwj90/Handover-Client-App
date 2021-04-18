@@ -1,7 +1,6 @@
 // @flow
 
-import type {LoginReqType, SetFCMTokenReqType, UpdateDriverLocationReqType} from './_types';
-import Constants from "../constants";
+import type {SetFCMTokenReqType, UpdateDriverLocationReqType} from './_types';
 import API from "../index";
 
 class Tracking_Mapping {

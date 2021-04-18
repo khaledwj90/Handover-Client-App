@@ -6,6 +6,7 @@ const style = StyleSheet.create({
     mainContainer: {
         flexDirection: 'row',
         alignItems: 'center',
+        overflow: 'hidden',
         width: '100%',
         height: 50,
         borderRadius: Theme.card_border_radius,

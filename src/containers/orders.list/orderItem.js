@@ -39,6 +39,7 @@ const OrderItem = (props: OrderItemProps) => {
             case Util.Constants.ORDER_STATUS.CANCELED:
                 return Theme.indication_color_1;
             case Util.Constants.ORDER_STATUS.DELIVERED:
+            case Util.Constants.ORDER_STATUS.COMPLETED:
                 return Theme.indication_color_3;
             case Util.Constants.ORDER_STATUS.IN_PROGRESS:
                 return Theme.indication_color_2;

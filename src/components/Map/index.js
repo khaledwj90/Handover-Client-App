@@ -124,6 +124,7 @@ const MapContainer = React.forwardRef((props: MapProps, ref) => {
         long: region.longitude
     }));
 
+
     return (
         <MapView
             ref={mapRef}
@@ -133,6 +134,7 @@ const MapContainer = React.forwardRef((props: MapProps, ref) => {
             {
                 props.markersList && props.markersList.length ?
                     props.markersList.map((marker, index) => {
+                        console.log('MARKS: ', marker.lat, marker.lng, marker.type);
                         return (
                             <Marker
                                 key={index}

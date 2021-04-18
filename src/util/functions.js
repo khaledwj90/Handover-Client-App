@@ -2,6 +2,7 @@ import {Dimensions, PixelRatio, LayoutAnimation} from 'react-native';
 import messaging from '@react-native-firebase/messaging';
 import AsyncStorage from "@react-native-community/async-storage";
 import PushNotification from "react-native-push-notification";
+import moment from 'moment';
 
 class _Functions {
     FontSize(size: number) {
@@ -10,7 +11,6 @@ class _Functions {
             height: SCREEN_HEIGHT,
         } = Dimensions.get('window');
 
-// based on iphone 5s's scale
         const scale = SCREEN_WIDTH / 400;
 
         const newSize = (size + 10) * scale;
@@ -121,6 +121,18 @@ class _Functions {
 
     async SetValueToAsyncStorage(key: string, value) {
         await AsyncStorage.setItem(key, value);
+    }
+
+    async ClearAsyncStorage(){
+        await AsyncStorage.clear();
+    }
+
+    DateTimeFormat(date, withTime: boolean = false, isRelative: boolean = false) {
+        if (withTime === false) {
+            return (moment(date).format(`MMM, DD YYYY`));
+        } else {
+            return (moment(date).format(`MMM DD YYYY  hh:mm:ss A`));
+        }
     }
 }
 

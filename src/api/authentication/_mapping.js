@@ -1,7 +1,6 @@
 // @flow
 
 import type {LoginReqType} from './_types';
-import Constants from "../constants";
 import API from "../index";
 
 class Authentication_Mapping {

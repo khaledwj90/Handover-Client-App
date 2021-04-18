@@ -15,28 +15,17 @@ type Props = {
     bgColor: string,
 };
 export const SliderModal: any = React.forwardRef((props: Props, ref: any): any => {
-    const {width, height} = Util.Functions.GetDeviceDimensions();
-    const animationVar = React.useRef(new Animated.Value(0)).current;
 
     React.useEffect(() => {
         Util.Functions.AnimateView('spring');
     }, [props.children]);
 
 
-    const onClose = React.useCallback(() => {
-    }, []);
-
-
-    React.useImperativeHandle(ref, () => ({
-        onClose: onClose,
-    }));
-
-
     if (props.withBlur === false) {
         return (
             <View style={style.mainContainer}>
                 {
-                    <View style={{flex: 1, justifyContent: 'flex-end', backgroundColor:'transparent'}}>
+                    <View style={{flex: 1, justifyContent: 'flex-end', backgroundColor: 'transparent'}}>
                         <View style={[style.contentContainer, {backgroundColor: props.bgColor,}]}>
                             {props.children}
                         </View>

@@ -18,7 +18,7 @@ const LocationSelectionField = (props: Props) => {
         <TouchableOpacity style={[style.mainContainer, props.style]}
                           activeOpacity={typeof props.onClick === 'undefined' ? 1 : 0.5} onPress={props.onClick}>
             <Icon name={'Animation_LocationPin'} style={{width: 30, height: 30, marginBottom: 5}}/>
-            <Text size={2} weight={props.isPlaceholder ? 'light' : 'regular'}
+            <Text size={2} numberOfLines={1} weight={props.isPlaceholder ? 'light' : 'regular'}
                   color={props.isPlaceholder ? Theme.base_color_3 : Theme.base_color_1}>
                 {props.value}
             </Text>

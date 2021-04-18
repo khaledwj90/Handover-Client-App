@@ -9,6 +9,7 @@ class Constants {
 
     ORDER_STATUS = {
         DELIVERED: 'DELIVERED',
+        COMPLETED: 'COMPLETED',
         IN_PROGRESS: 'IN-PROGRESS',
         CANCELED: 'CANCELED',
     };
