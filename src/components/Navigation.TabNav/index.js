@@ -46,7 +46,7 @@ const TabNavigationContent = ({state, descriptors, navigation, ...props}) => {
 
 
     return (
-        <Animated.View style={[style.mainContainer, style.shadow, {height: hasNotch() ? 80 : 60}, {
+        <Animated.View style={[style.mainContainer, style.shadow, {height: Theme.tabs_height}, {
             transform: [{
                 translateY: animationRef.interpolate({
                     inputRange: [0, 1],

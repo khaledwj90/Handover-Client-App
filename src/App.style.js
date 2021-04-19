@@ -1,7 +1,7 @@
 // @flow
 
 import * as React from 'react';
-
+import {hasNotch} from "react-native-device-info";
 
 
 class AppStyle {
@@ -56,6 +56,7 @@ class AppStyle {
 
     disabled_opacity: number = 0.5;
     header_height = 100;
+    tabs_height = hasNotch() ? 80 : 60;
     page_padding = 15;
     card_border_radius = 10;
 

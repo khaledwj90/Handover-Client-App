@@ -58,7 +58,7 @@ const OrderItem = (props: OrderItemProps) => {
             transform: [{
                 translateX: animationRef.interpolate({
                     inputRange: [0, 1],
-                    outputRange: [-100, 0]
+                    outputRange: [-Util.Functions.GetDeviceDimensions().width - 30, 0]
                 })
             }]
         }]}>

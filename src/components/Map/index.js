@@ -30,8 +30,8 @@ const MapContainer = React.forwardRef((props: MapProps, ref) => {
             const initialLocation = {
                 latitude: props.initialLocation.lat,
                 longitude: props.initialLocation.lng,
-                latitudeDelta: 0.01,
-                longitudeDelta: 0.01
+                latitudeDelta: 0.02,
+                longitudeDelta: 0.02
             };
             mapRef.current.animateToRegion(initialLocation, 500);
             setRegion(initialLocation);
@@ -134,7 +134,7 @@ const MapContainer = React.forwardRef((props: MapProps, ref) => {
             {
                 props.markersList && props.markersList.length ?
                     props.markersList.map((marker, index) => {
-                        console.log('MARKS: ', marker.lat, marker.lng, marker.type);
+                        console.log('MARKER: ',marker);
                         return (
                             <Marker
                                 key={index}
